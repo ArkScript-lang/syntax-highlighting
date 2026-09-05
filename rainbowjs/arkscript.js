@@ -1,8 +1,8 @@
 Rainbow.extend('arkscript', [
     {
         /* making peace with HTML */
-        name: 'plain',
-        pattern: /&gt;|&lt;/g
+        name: 'entity.function',
+        pattern: /&gt;=?|&lt;=?/g
     },
     {
         name: 'comment',
@@ -22,7 +22,7 @@ Rainbow.extend('arkscript', [
     },
     {
         name: 'string',
-        pattern: /".+?"/g
+        pattern: /"([^"\\]|\\([.\n]))*"/g
     },
     {
         matches: {
@@ -35,12 +35,36 @@ Rainbow.extend('arkscript', [
         matches: {
             1: 'keyword'
         },
-        pattern: /\(\s*(begin|if|fun|set|while|let|mut|del|import|macro|\$if)(?=[\]()\s#])/g
+        pattern: /\(\s*(begin|if|\$if|fun|macro|set|while|let|mut|del|import|breakpoint)(?=[\]()\s#])/g
     },
     {
         matches: {
             1: 'entity.function'
         },
-        pattern: /\(\s*(=|<|>|<=|>=|!=|@|@@|@=|@@=|\+|\-|\*|\/|head|tail|nil\?|list|len|append|append!|concat|concat!|pop|pop!|print|puts|input|time|empty\?|assert|toNumber|toString|and|or|mod|type|hasField|not|\$undef|\$repr|\$as-is|\$symcat|\$argcount|\w+:\w+)(?=[\]()\s#])/g
+        pattern: /\(\s*(=|<=?|>=?|!=|@|@@|@=|@@=|\^|\+|-|\*|\/|tail|head|nil\?|list|len|append|concat|print|puts|format|input|time|empty\?|assert|toNumber|toString|and|or|mod|type|hasField|not|async|await)(?=[\]()\s#])/g
+    }
+]);
+
+Rainbow.extend('arkscript-bytecode', [
+    {
+        /* making peace with HTML */
+        name: 'plain',
+        pattern: /&gt;|&lt;/g
+    },
+    {
+        name: 'constant.symbol',
+        pattern: /(Version|Timestamp|SHA256)/g
+    },
+    {
+        name: 'constant.number',
+        pattern: /\n\d+/g
+    },
+    {
+        name: 'storage.function',
+        pattern: /(Symbols table|Constants table|Instruction locations table|Code segment).+/g
+    },
+    {
+        name: 'entity.function',
+        pattern: /[A-Z_]{2,}/g
     }
 ]);
